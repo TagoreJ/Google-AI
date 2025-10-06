@@ -7,3 +7,4 @@ chromadb
 sentence-transformers
 python-dotenv
 PyPDF2
+google.colab
