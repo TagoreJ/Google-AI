@@ -6,4 +6,4 @@ langchain-community
 chromadb
 sentence-transformers
 python-dotenv
-pypdf2
+PyPDF2
