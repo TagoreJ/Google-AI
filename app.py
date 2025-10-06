@@ -9,7 +9,7 @@ import os
 import google.generativeai as genai
 from dotenv import load_dotenv
 # Used to securely store your API key
-from google.colab import userdata # This is for Colab environment
+# from google.colab import userdata # Comment out or remove this line for Streamlit Cloud
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,11 +18,13 @@ load_dotenv()
 # It's recommended to store your API key securely,
 # for example, as a Streamlit Cloud secret.
 # Replace 'GOOGLE_API_KEY' with the name of your secret.
-# Use userdata.get('GOOGLE_API_KEY') for Colab, or os.getenv("GOOGLE_API_KEY") for local
 try:
-    api_key = userdata.get('GOOGLE_API_KEY')
+    # Use os.getenv for Streamlit Cloud or local deployment
+    api_key = os.getenv('GOOGLE_API_KEY')
+    # If running in Colab and you still want to test, you can uncomment the line below
+    # api_key = userdata.get('GOOGLE_API_KEY')
 except Exception:
-    api_key = os.getenv("GOOGLE_API_KEY")
+    api_key = None # Ensure api_key is None if os.getenv fails
 
 
 if not api_key:
@@ -35,7 +37,8 @@ else:
 
     # Initialize the Gemini model (moved outside the ask_question_rag function)
     try:
-        gemini_model = genai.GenerativeModel('gemini-2.5-flash')
+        # Using a stable model name that supports generateContent
+        gemini_model = genai.GenerativeModel('gemini-1.5-flash') # Changed to 1.5-flash for broader availability
     except Exception as e:
         st.error(f"Error initializing Gemini model: {e}")
         gemini_model = None
